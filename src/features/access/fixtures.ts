@@ -1,4 +1,5 @@
 import type { CompanyType } from "@/features/company/model";
+import { routes } from "@/shared/lib/routes";
 import type { CountryCode } from "@/shared/ui/Flag";
 
 /** Número de WhatsApp de SEGlobal 360, en formato internacional sin signos. */
@@ -134,3 +135,29 @@ export const usdCurrency: CurrencyOption = { code: "USD", label: "USD · Dólar 
 
 /** Pasos del asistente de registro, en orden. */
 export const registerSteps: string[] = ["Empresa", "Tus datos", "Cuenta", "Verificación"];
+
+/** Cuenta de demostración del ingreso, con el portal al que entra. */
+export interface DemoAccount {
+  email: string;
+  name: string;
+  portal: string;
+  home: string;
+}
+
+/** Contraseña común de las cuentas de demostración; no protege nada, viaja en el bundle. */
+export const demoPassword = "Demo-global360";
+
+/** Una cuenta por portal, con las personas del diseño. */
+export const demoAccounts: DemoAccount[] = [
+  { email: "laura.gomez@andina.example", name: "Laura Gómez", portal: "Cliente", home: routes.client.home },
+  { email: "laura@tecnoandina.example", name: "Laura Restrepo", portal: "Proveedor mayorista", home: routes.supplier.profile },
+  { email: "mateo@caribefreight.example", name: "Mateo Herrera", portal: "Operador logístico", home: routes.logistics.profile },
+  { email: "andres.rojas@seglobal360.example", name: "Andrés Rojas", portal: "Backoffice", home: routes.backoffice.inbox },
+];
+
+/** Cuenta que coincide con el correo y la contraseña, o `undefined`. */
+export function findDemoAccount(email: string, password: string): DemoAccount | undefined {
+  const normalized = email.trim().toLowerCase();
+  if (password !== demoPassword) return undefined;
+  return demoAccounts.find((account) => account.email === normalized);
+}

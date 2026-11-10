@@ -3,27 +3,41 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
-import { Eye, EyeOff, Mail } from "lucide-react";
+import { CircleAlert, Eye, EyeOff, Mail } from "lucide-react";
 import { routes } from "@/shared/lib/routes";
 import { Field, TextInput } from "@/shared/ui/Field";
+import { findDemoAccount } from "./fixtures";
 
 /** Formulario de ingreso con mostrar u ocultar contraseña y el aviso de correo sin verificar. */
 export function LoginForm() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [resent, setResent] = useState(false);
+  const [failed, setFailed] = useState(false);
 
-  // Demo sin backend: ingresar lleva al portal del cliente.
+  // Demo sin backend: cada cuenta de demostración entra a su portal; el resto, el mismo error.
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    router.push(routes.client.home);
+    const data = new FormData(event.currentTarget);
+    const account = findDemoAccount(String(data.get("email") ?? ""), String(data.get("password") ?? ""));
+    if (!account) {
+      setFailed(true);
+      return;
+    }
+    router.push(account.home);
   };
 
   return (
     <>
       <form onSubmit={onSubmit} className="mt-8 flex flex-col gap-5">
         <Field label="Correo electrónico">
-          <TextInput type="email" name="email" autoComplete="email" placeholder="nombre@empresa.com" />
+          <TextInput
+            type="email"
+            name="email"
+            autoComplete="email"
+            placeholder="nombre@empresa.com"
+            aria-describedby={failed ? "login-error" : undefined}
+          />
         </Field>
         <div className="flex flex-col gap-2">
           <div className="flex items-baseline justify-between gap-3">
@@ -40,6 +54,7 @@ export function LoginForm() {
               name="password"
               type={showPassword ? "text" : "password"}
               autoComplete="current-password"
+              aria-describedby={failed ? "login-error" : undefined}
               className="h-[46px] min-w-0 flex-auto rounded-field bg-transparent px-3.5 text-[15px] font-medium text-navy-900 outline-none"
             />
             <button
@@ -56,6 +71,16 @@ export function LoginForm() {
             </button>
           </div>
         </div>
+        {failed ? (
+          <p
+            id="login-error"
+            role="alert"
+            className="m-0 flex items-start gap-2.5 rounded-btn bg-danger-bg px-4 py-3 text-sm leading-normal font-medium text-danger-fg"
+          >
+            <CircleAlert size={18} strokeWidth={1.75} aria-hidden="true" className="mt-px shrink-0" />
+            Correo o contraseña incorrectos.
+          </p>
+        ) : null}
         <button
           type="submit"
           className="lift flex min-h-[52px] items-center justify-center rounded-btn bg-navy-900 text-[15px] font-semibold text-white"

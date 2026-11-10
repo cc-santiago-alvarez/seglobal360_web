@@ -16,6 +16,17 @@ pnpm typecheck
 pnpm lint
 ```
 
+## Cuentas de demostración
+
+No hay autenticación real: `/login` compara el correo y la contraseña con estas cuentas (definidas en `src/features/access/fixtures.ts`) y lleva a cada una a su portal. Cualquier otra combinación muestra «Correo o contraseña incorrectos.». Las rutas de los portales también se abren directamente, sin sesión.
+
+| Portal | Persona | Correo | Contraseña | Entra a |
+|---|---|---|---|---|
+| Cliente | Laura Gómez | `laura.gomez@andina.example` | `Demo-global360` | `/portal` |
+| Proveedor mayorista | Laura Restrepo | `laura@tecnoandina.example` | `Demo-global360` | `/supplier` |
+| Operador logístico | Mateo Herrera | `mateo@caribefreight.example` | `Demo-global360` | `/logistics` |
+| Backoffice | Andrés Rojas | `andres.rojas@seglobal360.example` | `Demo-global360` | `/backoffice` |
+
 ## Pantallas
 
 | Superficie | Ruta | Pantalla del diseño |
