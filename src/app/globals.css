@@ -1,0 +1,162 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-montserrat), Arial, ui-sans-serif, sans-serif;
+}
+
+@theme {
+  /* Marca */
+  --color-navy-950: #061024;
+  --color-navy-900: #0b1b33;
+  --color-navy-800: #12274a;
+  --color-gold-500: #c9a45c;
+  --color-gold-300: #e8cb8e;
+  --color-gold-text: #8a6224;
+  --color-sand: #f6ecd6;
+  --color-sand-line: #ebd9ae;
+  --color-cream: #f3f0e8;
+  --color-ivory: #f7f5f0;
+  --color-whatsapp: #1da851;
+
+  /* Texto */
+  --color-ink: #3a4556;
+  --color-subtle: #556070;
+  --color-faint: #7b8494;
+
+  /* Líneas y superficies */
+  --color-line: #ece8de;
+  --color-line-soft: #f1eee7;
+  --color-line-strong: #d9d4c7;
+  --color-line-warm: #e2ded3;
+  --color-surface-muted: #edeae2;
+  --color-highlight: #fffcf5;
+  --color-selected: #fbf6ea;
+
+  /* Tonos de estado: fondo, texto y punto */
+  --color-neutral-bg: #eceef2;
+  --color-neutral-fg: #3a4556;
+  --color-neutral-dot: #8a94a6;
+  --color-info-bg: #e2ebf8;
+  --color-info-fg: #1f4c8f;
+  --color-info-dot: #3b6fc2;
+  --color-info-ink: #173b70;
+  --color-warn-bg: #f6ecd6;
+  --color-warn-fg: #7a5418;
+  --color-warn-dot: #c9a45c;
+  --color-warn-ink: #5e4110;
+  --color-success-bg: #def2e5;
+  --color-success-fg: #1b6b3e;
+  --color-success-dot: #2e9e5b;
+  --color-danger-bg: #fbe4e1;
+  --color-danger-fg: #9b2c22;
+  --color-danger-dot: #d2463a;
+  --color-muted-bg: #f0efeb;
+  --color-muted-fg: #5e6370;
+  --color-muted-dot: #a3a6ae;
+
+  /* Forma */
+  --radius-field: 12px;
+  --radius-btn: 14px;
+  --radius-btn-lg: 15px;
+  --radius-tile: 20px;
+  --radius-panel: 24px;
+  --radius-card: 28px;
+
+  /* Profundidad */
+  --shadow-hover: 0 8px 20px rgba(11, 27, 51, 0.14);
+  --shadow-lift: 0 12px 28px rgba(11, 27, 51, 0.1);
+  --shadow-menu: 0 24px 48px rgba(11, 27, 51, 0.14);
+  --shadow-segment: 0 1px 3px rgba(11, 27, 51, 0.12);
+}
+
+@layer base {
+  html {
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-ivory);
+    color: var(--color-navy-900);
+    font-family: var(--font-sans);
+    line-height: normal;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    color: var(--color-gold-text);
+  }
+
+  a:hover {
+    color: var(--color-navy-900);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold-500);
+    outline-offset: 2px;
+  }
+}
+
+/* Enlace sin subrayado que se vuelve dorado al pasar el cursor. */
+@utility link-quiet {
+  text-decoration: none;
+  transition: color 0.15s ease;
+  &:hover {
+    color: var(--color-gold-text) !important;
+  }
+}
+
+/* Botón que gana sombra y brillo al pasar el cursor. */
+@utility lift {
+  transition:
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
+  &:hover {
+    box-shadow: var(--shadow-hover);
+    filter: brightness(1.06);
+  }
+}
+
+/* Fila o resultado que toma fondo ivory al pasar el cursor. */
+@utility row-hover {
+  transition: background-color 0.15s ease;
+  &:hover {
+    background: var(--color-ivory);
+  }
+}
+
+/* Tarjeta que toma borde dorado y sombra al pasar el cursor. */
+@utility card-hover {
+  transition:
+    box-shadow 0.15s ease,
+    border-color 0.15s ease;
+  &:hover {
+    border-color: var(--color-gold-500);
+    box-shadow: var(--shadow-lift);
+  }
+}
+
+/* Texto solo para lectores de pantalla. */
+@utility visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Fila deslizable sin barra visible. */
+@utility scroll-row {
+  overflow-x: auto;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
